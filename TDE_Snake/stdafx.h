@@ -24,5 +24,6 @@
 #include <Windows.h>
 
 #include "Snake.h"
+#include "Map.h"
 #include "Game.h"
 #include "Menu.h"

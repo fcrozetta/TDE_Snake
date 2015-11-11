@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Map.h"
 
 void drawScreen() {
 	/* Draw the screen */
@@ -13,6 +14,13 @@ void drawScreen() {
 		draw({ i,0 }, TOPWALL);
 	    draw({ i,HEIGHT }, TOPWALL);
 	}
+
+
+	// Draw Corners
+	draw({ 0,0 }, CORNER);
+	draw({ 0,HEIGHT }, CORNER);
+	draw({ WIDTH,0 }, CORNER);
+	draw({ WIDTH,HEIGHT }, CORNER);
 }
 
 void draw(COORD posXY, char symbol) {

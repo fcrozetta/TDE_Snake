@@ -21,9 +21,13 @@ int main()
 	Game game = Game();
 	switch ((int)MainMenu())
 	{
+	case 48:
+		exit(0);
+		break;
 	case 49:
 		/*Iniciar o jogo*/
-
+		system("cls");
+		drawScreen();
 		break;
 	case 50:
 		SaveGame(&game);
