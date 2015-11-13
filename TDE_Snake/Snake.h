@@ -16,10 +16,11 @@ typedef struct snakebody {
 
 typedef struct snakehead
 {
-	COORD pos;
-	Direction direction = Direction::NORTH;
-	int score;
-	char symbol = '^';
+	COORD pos = { WIDTH/2,HEIGHT/2 };
+	Direction direction = SOUTH;
+	int score = 0;
+	char symbol;
+	char nextPosSymbol;
 	SnakeBody * next = NULL;
 }SnakeHead;
 
@@ -28,3 +29,5 @@ void addScore(SnakeHead * snake, int score);
 void addSnakeBody(SnakeHead *snake);
 
 void drawSnake(SnakeHead * snake);
+
+void updateSnake(SnakeHead * snake);

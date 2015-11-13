@@ -20,19 +20,47 @@ void drawSnake(SnakeHead * snake) {
 	// Adjust and print Snake Symbol
 	switch (snake->direction)
 	{
-	case Direction::NORTH:
+	case NORTH:
 		snake->symbol = '^';
 		break;
-	case Direction::SOUTH:
+	case SOUTH:
 		snake->symbol = 'v';
 		break;
-	case Direction::EAST:
+	case EAST:
 		snake->symbol = '>';
 		break;
-	case Direction::WEST:
+	case WEST:
 		snake->symbol = '<';
+		break;
 	}
 
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), snake->pos);
 	printf("%c", snake->symbol);
+}
+
+void updateSnake(SnakeHead * snake) {
+	/* This function will get the next position, check if is a hit, score or move, and call the right function */
+
+	switch (snake->direction)
+	{
+		// Each case should	
+	case NORTH:
+		snake->pos.Y -= 1;
+		break;
+	case SOUTH:
+		snake->pos.Y += 1;
+		break;
+	case EAST:
+		snake->pos.X += 1;
+		break;
+	case WEST:
+		snake->pos.X -= 1;
+		break;
+	}
+	if ((snake->nextPosSymbol == SIDEWALL) || (snake->nextPosSymbol == TOPWALL))
+	{
+		// Implement Deah Functions
+		printf("Morreu, babaca!");
+	}
+	drawSnake(snake);
 }
