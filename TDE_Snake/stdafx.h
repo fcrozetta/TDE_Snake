@@ -22,8 +22,11 @@
 #include <locale.h>
 #include <conio.h>
 #include <Windows.h>
+#include <time.h>
+
 
 #include "Snake.h"
+#include "Fruit.h"
 #include "Map.h"
 #include "Game.h"
 #include "Menu.h"

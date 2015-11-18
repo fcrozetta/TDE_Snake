@@ -3,7 +3,6 @@
 
 
 /* Guias para fazer isso tudo Funcionar:
-	- Tela Padrão, com Bordas
 	- cabeça do Snake Andar na tela	
 	- Frutas aparecerem na tela
 	- Snake comer frutas
@@ -21,6 +20,8 @@ int main()
 	char buf[BUFSIZ];
 	DWORD num_read;
 
+	srand(time(NULL)); // Seed for random numbers
+
 	setlocale(LC_ALL, "");
 	Game game;
 	switch ((int)MainMenu())
@@ -36,29 +37,31 @@ int main()
 		system("cls");
 		drawScreen();
 		drawSnake(&game.snkHead);
-		while (true)
+		while (true) 
 		{
 
 			if (_kbhit())
 			{
-				char pressedKey = _getch();
-				printf("%c", pressedKey);
-/*				if (pressedKey == 'à') // Up arrow
+				int KeyStroke;
+				KeyStroke = _getch();
+
+				if (!KeyStroke || KeyStroke == 0xe0)
+					KeyStroke = _getch();
+				switch (KeyStroke)
 				{
+				case 72: //North
 					game.snkHead.direction = NORTH;
-				}
-				if (pressedKey == 'B') // Down arrow
-				{
+					break;
+				case 80: //South
 					game.snkHead.direction = SOUTH;
-				}
-				if (pressedKey == 'C') // Right arrow
-				{
+					break;
+				case 77: //East
 					game.snkHead.direction = EAST;
-				}
-				if (pressedKey == 'D') // Left arrow
-				{
+					break;
+				case 75: //West
 					game.snkHead.direction = WEST;
-				}*/
+					break;
+				}
 			}
 
 			/* This switch is needed to update the nextPosSymbol. I don't know how to read the console outside the main */
@@ -79,11 +82,10 @@ int main()
 				nextPos = { game.snkHead.pos.X - 1,game.snkHead.pos.Y };
 				break;
 			}
-			
 			ReadConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), (LPTSTR)buf, (DWORD)BUFSIZ, nextPos, (LPDWORD)&num_read);
 			game.snkHead.nextPosSymbol = buf[0];
 			updateSnake(&game.snkHead);
-			Sleep(1000);
+			Sleep(100);
 		}
 		break;
 	case 50:

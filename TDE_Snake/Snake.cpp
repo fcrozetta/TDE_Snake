@@ -16,8 +16,14 @@ void addSnakeBody(SnakeHead * snake)
 	// Implementar adição de corpo no fim do snake
 }
 
+void drawSpaceSnake(SnakeHead * snake) {
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), snake->pos);
+	printf("%c", ' ');
+}
+
 void drawSnake(SnakeHead * snake) {
 	// Adjust and print Snake Symbol
+	
 	switch (snake->direction)
 	{
 	case NORTH:
@@ -39,11 +45,10 @@ void drawSnake(SnakeHead * snake) {
 }
 
 void updateSnake(SnakeHead * snake) {
+	drawSpaceSnake(snake);
 	/* This function will get the next position, check if is a hit, score or move, and call the right function */
-
 	switch (snake->direction)
 	{
-		// Each case should	
 	case NORTH:
 		snake->pos.Y -= 1;
 		break;
