@@ -18,6 +18,8 @@
 #define SIDEWALL '|'
 #define TOPWALL '-'
 #define CORNER '+'
+#define FRUIT '*'
+#define BODY '0'
 
 #include <locale.h>
 #include <conio.h>

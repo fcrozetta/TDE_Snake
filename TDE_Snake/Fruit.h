@@ -6,4 +6,4 @@ typedef struct fruit
 	COORD pos;
 }Fruit;
 
-void spawnFruit();
+void spawnFruit(COORD pos);

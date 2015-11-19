@@ -6,5 +6,5 @@ typedef struct game {
 		- SnakeHead
 		// Complement this Comment if needed
 	*/
-	SnakeHead snkHead;
+	SnakeHead * snkHead;
 }Game;
