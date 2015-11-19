@@ -3,8 +3,18 @@
 #include "Snake.h"
 
 
-SnakeHead newSnake() {
-	return SnakeHead();
+SnakeHead *newSnake() {
+	/* Continue From here */
+	SnakeHead * head = (SnakeHead *)malloc(sizeof(SnakeHead));
+	head->digesting = false;
+	head->direction = SOUTH;
+	head->lastPos = { 0,0 };
+	head->nextPosSymbol;
+	head->next = NULL;
+	head->pos = { WIDTH / 2,HEIGHT / 2 };
+	head->score = 0;
+	head->symbol;
+	return head;
 }
 
 SnakeBody * newBody() {
@@ -34,12 +44,14 @@ void addSnakeBody(SnakeHead * snake, SnakeBody * body)
 		}
 		body->prev = last;
 		last->next = body;
+		body->pos = last->lastPos;
 	}
 	else
 	{
 		body->prev = NULL;
 		body->next = NULL;
 		body->pos = snake->lastPos;
+		snake->next = body;
 	}
 }
 
@@ -73,8 +85,11 @@ void drawSnake(SnakeHead * snake) {
 		SnakeBody *tmp = snake->next;
 		while (tmp != NULL)
 		{
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), snake->pos);
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->pos);
 			printf("%c", BODY);
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->lastPos);
+			printf("%c", ' ');
+			tmp = tmp->next;
 		}
 	}
 	
@@ -103,6 +118,8 @@ void updateSnake(SnakeHead * snake) {
 	SnakeBody * tmp = snake->next;
 	if (tmp != NULL)
 	{
+		tmp->lastPos = tmp->pos;
+		tmp = tmp->next;
 		while (tmp != NULL)
 		{
 			/* LastPosition of every block */
@@ -111,14 +128,17 @@ void updateSnake(SnakeHead * snake) {
 		}
 
 		/* Updates the body positions */
-		tmp = snake->next;
+ 		tmp = snake->next;
 		tmp->pos = snake->lastPos;
-		while (tmp != NULL)
+		if (tmp->next != NULL)
+		{
+			tmp = tmp->next;
+		}
+		while (tmp->next != NULL)
 		{
 			tmp->pos = tmp->prev->lastPos;
 			tmp = tmp->next;
 		}
-		
 	}
 
 	if ((snake->nextPosSymbol == SIDEWALL) || (snake->nextPosSymbol == TOPWALL))

@@ -27,6 +27,8 @@ typedef struct snakehead
 	SnakeBody * next = NULL;
 }SnakeHead;
 
+SnakeHead * newSnake();
+
 SnakeBody * newBody();
 
 void addScore(SnakeHead * snake, int score);

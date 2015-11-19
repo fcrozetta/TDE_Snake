@@ -6,7 +6,7 @@
 	- cabeça do Snake Andar na tela		[OK]
 	- Frutas aparecerem na tela			[OK]	
 	- Snake comer frutas				[OK]
-	- Corpo do snake seguindo cabeça
+	- Corpo do snake seguindo cabeça	[OK]
 	- Incrementar Corpo
 	- Snake morre ao acertar a parede (snake.. snAKE?, SNAAAAAKE!!!!)
 
@@ -23,7 +23,7 @@ int main()
 	srand(time(NULL)); // Seed for random numbers
 
 	setlocale(LC_ALL, "");
-	SnakeHead * snake;
+	SnakeHead * snake = newSnake();
 	switch ((int)MainMenu())
 	{
 	case 27: // Esc <- Save this to use later
@@ -36,7 +36,7 @@ int main()
 		/*Iniciar o jogo*/
 		system("cls");
 		drawScreen();
-		drawSnake(game->snkHead);
+		drawSnake(snake);
 		
 		/* I'm repeating this block of code, because i'm stupid enough to not create a propper function. sorry */
 		buf[0] = '+';
@@ -51,11 +51,11 @@ int main()
 		while (true) 
 		{
 			// Spawns a new Fruit if snake just ate
-			if (game->snkHead->digesting)
+			if (snake->digesting)
 			{
-				game->snkHead->digesting = false;
+				snake->digesting = false;
 				SnakeBody * body = newBody();
-				addSnakeBody(game->snkHead, body);
+				addSnakeBody(snake, body);
 				buf[0] = '+';
 				COORD fruitPos;
 				while (buf[0] != ' ')
@@ -76,45 +76,44 @@ int main()
 				switch (KeyStroke)
 				{
 				case 72: //North
-					game->snkHead->direction = NORTH;
+					snake->direction = NORTH;
 					break;
 				case 80: //South
-					game->snkHead->direction = SOUTH;
+					snake->direction = SOUTH;
 					break;
 				case 77: //East
-					game->snkHead->direction = EAST;
+					snake->direction = EAST;
 					break;
 				case 75: //West
-					game->snkHead->direction = WEST;
+					snake->direction = WEST;
 					break;
 				}
 			}
 
 			/* This switch is needed to update the nextPosSymbol. I don't know how to read the console outside the main */
 			COORD nextPos;
-			switch (game->snkHead->direction)
+			switch (snake->direction)
 			{
 			case NORTH:
-				nextPos = { game->snkHead->pos.X,game->snkHead->pos.Y - 1 };
+				nextPos = { snake->pos.X,snake->pos.Y - 1 };
 				break;
 			case SOUTH:
-				nextPos = { game->snkHead->pos.X,game->snkHead->pos.Y + 1 };
+				nextPos = { snake->pos.X,snake->pos.Y + 1 };
 				break;
 			case EAST:
-				nextPos = { game->snkHead->pos.X + 1,game->snkHead->pos.Y };
+				nextPos = { snake->pos.X + 1,snake->pos.Y };
 				break;
 			case WEST:
-				nextPos = { game->snkHead->pos.X - 1,game->snkHead->pos.Y };
+				nextPos = { snake->pos.X - 1,snake->pos.Y };
 				break;
 			}
 			ReadConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), (LPTSTR)buf, (DWORD)BUFSIZ, nextPos, (LPDWORD)&num_read);
-			game->snkHead->nextPosSymbol = buf[0];
-			updateSnake(game->snkHead);
+			snake->nextPosSymbol = buf[0];
+			updateSnake(snake);
 			Sleep(100);
 		}
 		break;
 	case 50:
-		SaveGame(game);
 		break;
 
 	case 51:
