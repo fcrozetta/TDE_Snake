@@ -8,10 +8,11 @@ SnakeHead *newSnake() {
 	SnakeHead * head = (SnakeHead *)malloc(sizeof(SnakeHead));
 	head->digesting = false;
 	head->direction = SOUTH;
-	head->lastPos = { 0,0 };
+	head->lastDirection = head->direction;
+	head->pos = { WIDTH / 2,HEIGHT / 2 };
+	head->lastPos = head->pos;
 	head->nextPosSymbol;
 	head->next = NULL;
-	head->pos = { WIDTH / 2,HEIGHT / 2 };
 	head->score = 0;
 	head->symbol;
 	return head;
@@ -24,7 +25,8 @@ SnakeBody * newBody() {
 	body->lastPos = { 0,0 };
 	body->pos = { 0,0 };
 	body->prev = NULL;
-	body->symbol = BODY;
+	body->direction=NORTH;
+	body->lastDirection = NORTH;
 	return body;
 }
 
@@ -45,12 +47,14 @@ void addSnakeBody(SnakeHead * snake, SnakeBody * body)
 		body->prev = last;
 		last->next = body;
 		body->pos = last->lastPos;
+		body->direction = last->lastDirection;
 	}
 	else
 	{
 		body->prev = NULL;
 		body->next = NULL;
 		body->pos = snake->lastPos;
+		body->direction = snake->lastDirection;
 		snake->next = body;
 	}
 }
@@ -86,9 +90,15 @@ void drawSnake(SnakeHead * snake) {
 		while (tmp != NULL)
 		{
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->pos);
-			printf("%c", BODY);
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->lastPos);
-			printf("%c", ' ');
+			char symbol;
+			tmp->direction % 2 == 0 ? symbol = BODY_VERTICAL : symbol = BODY_HORIZONTAL;
+			printf("%c", symbol);
+			if (tmp->next == NULL)
+			{
+				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->lastPos);
+				printf("%c", ' ');
+			}
+			
 			tmp = tmp->next;
 		}
 	}
@@ -98,6 +108,7 @@ void drawSnake(SnakeHead * snake) {
 void updateSnake(SnakeHead * snake) {
 	drawSpaceSnake(snake);
 	snake->lastPos = snake->pos;
+	snake->lastDirection = snake->direction;
 	/* This function will get the next position, check if is a hit, score or move, and call the right function */
 	switch (snake->direction)
 	{
@@ -119,26 +130,31 @@ void updateSnake(SnakeHead * snake) {
 	if (tmp != NULL)
 	{
 		tmp->lastPos = tmp->pos;
+		tmp->lastDirection = tmp->direction;
 		tmp = tmp->next;
 		while (tmp != NULL)
 		{
 			/* LastPosition of every block */
 			tmp->lastPos = tmp->pos;
+			tmp->lastDirection = tmp->direction;
 			tmp = tmp->next;
 		}
 
 		/* Updates the body positions */
  		tmp = snake->next;
 		tmp->pos = snake->lastPos;
+		tmp->direction = snake->lastDirection;
 		if (tmp->next != NULL)
 		{
 			tmp = tmp->next;
+			while (tmp != NULL)
+			{
+				tmp->pos = tmp->prev->lastPos;
+				tmp->direction = tmp->prev->lastDirection;
+				tmp = tmp->next;
+			}
 		}
-		while (tmp->next != NULL)
-		{
-			tmp->pos = tmp->prev->lastPos;
-			tmp = tmp->next;
-		}
+		
 	}
 
 	if ((snake->nextPosSymbol == SIDEWALL) || (snake->nextPosSymbol == TOPWALL))

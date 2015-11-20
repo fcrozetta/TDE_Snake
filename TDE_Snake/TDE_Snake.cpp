@@ -50,21 +50,7 @@ int main()
 		
 		while (true) 
 		{
-			// Spawns a new Fruit if snake just ate
-			if (snake->digesting)
-			{
-				snake->digesting = false;
-				SnakeBody * body = newBody();
-				addSnakeBody(snake, body);
-				buf[0] = '+';
-				COORD fruitPos;
-				while (buf[0] != ' ')
-				{
-					fruitPos = { rand() % WIDTH,rand() % HEIGHT };
-					ReadConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), (LPTSTR)buf, (DWORD)BUFSIZ, fruitPos, (LPDWORD)&num_read);
-				}
-				spawnFruit(fruitPos);
-			}
+			
 
 			if (_kbhit())
 			{
@@ -110,6 +96,23 @@ int main()
 			ReadConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), (LPTSTR)buf, (DWORD)BUFSIZ, nextPos, (LPDWORD)&num_read);
 			snake->nextPosSymbol = buf[0];
 			updateSnake(snake);
+
+			// Spawns a new Fruit if snake just ate
+			if (snake->digesting)
+			{
+				snake->digesting = false;
+				SnakeBody * body = newBody();
+				addSnakeBody(snake, body);
+				buf[0] = '+';
+				COORD fruitPos;
+				while (buf[0] != ' ')
+				{
+					fruitPos = { rand() % WIDTH,rand() % HEIGHT };
+					ReadConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), (LPTSTR)buf, (DWORD)BUFSIZ, fruitPos, (LPDWORD)&num_read);
+				}
+
+				spawnFruit(fruitPos);
+			}
 			Sleep(100);
 		}
 		break;

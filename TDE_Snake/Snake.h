@@ -2,15 +2,16 @@
 enum Direction
 {
 	NORTH,
-	SOUTH,
 	EAST,
+	SOUTH,
 	WEST
 };
 
 typedef struct snakebody {
 	COORD pos;
 	COORD lastPos;
-	char symbol = '0';
+	Direction direction;
+	Direction lastDirection;
 	struct snakebody * next = NULL;
 	struct snakebody * prev = NULL;
 }SnakeBody;
@@ -20,6 +21,7 @@ typedef struct snakehead
 	COORD pos = { WIDTH/2,HEIGHT/2 };
 	COORD lastPos;
 	Direction direction = SOUTH;
+	Direction lastDirection = SOUTH;
 	int score = 0;
 	char symbol;
 	char nextPosSymbol;

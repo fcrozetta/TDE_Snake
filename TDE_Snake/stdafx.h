@@ -19,7 +19,8 @@
 #define TOPWALL '-'
 #define CORNER '+'
 #define FRUIT '*'
-#define BODY '0'
+#define BODY_HORIZONTAL '-'
+#define BODY_VERTICAL '|'
 
 #include <locale.h>
 #include <conio.h>
