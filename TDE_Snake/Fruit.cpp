@@ -2,6 +2,6 @@
 
 
 void spawnFruit(COORD pos) {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+	cursorPosition(pos);
 	printf("%c", FRUIT);
 }

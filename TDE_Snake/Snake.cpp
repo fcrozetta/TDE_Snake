@@ -4,7 +4,6 @@
 
 
 SnakeHead *newSnake() {
-	/* Continue From here */
 	SnakeHead * head = (SnakeHead *)malloc(sizeof(SnakeHead));
 	head->digesting = false;
 	head->direction = SOUTH;
@@ -15,6 +14,8 @@ SnakeHead *newSnake() {
 	head->next = NULL;
 	head->score = 0;
 	head->symbol;
+	head->name;
+	head->fruitPos = { 0,0 };
 	return head;
 }
 
@@ -30,8 +31,17 @@ SnakeBody * newBody() {
 	return body;
 }
 
+void printScore(SnakeHead *snake) {
+	COORD scorePosition = { 0,HEIGHT + 1 };
+	cursorPosition(scorePosition);
+	printf("%d", snake->score);
+}
+
 void addScore(SnakeHead * snake, int score=1) {
 	snake->score += score;
+	printScore(snake);
+	
+	
 }
 
 void addSnakeBody(SnakeHead * snake, SnakeBody * body)
@@ -60,7 +70,7 @@ void addSnakeBody(SnakeHead * snake, SnakeBody * body)
 }
 
 void drawSpaceSnake(SnakeHead * snake) {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), snake->pos);
+	cursorPosition(snake->pos);
 	printf("%c", ' ');
 }
 
@@ -81,7 +91,7 @@ void drawSnake(SnakeHead * snake) {
 		break;
 	}
 
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), snake->pos);
+	cursorPosition(snake->pos);
 	printf("%c", snake->symbol);
 
 	if (snake->next != NULL)
@@ -89,16 +99,178 @@ void drawSnake(SnakeHead * snake) {
 		SnakeBody *tmp = snake->next;
 		while (tmp != NULL)
 		{
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->pos);
+			cursorPosition(tmp->pos);
 			char symbol;
-			tmp->direction % 2 == 0 ? symbol = BODY_VERTICAL : symbol = BODY_HORIZONTAL;
-			printf("%c", symbol);
+
+			if (tmp->prev == NULL)
+			{
+				/* Adjust the Symbol to print, if there is no previous body (first body) */
+				switch (tmp->direction)
+				{
+				case NORTH:
+					switch (snake->direction)
+					{
+					case NORTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case SOUTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case EAST:						
+						printf("%c", BODY_NORTH_EAST);
+						break;
+					case WEST:
+						printf("%c", BODY_NORTH_WEST);
+						break;
+					}
+					break;
+				case SOUTH:
+					switch (snake->direction)
+					{
+					case NORTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case EAST:
+						printf("%c", BODY_SOUTH_EAST);
+						break;
+					case SOUTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case WEST:
+						printf("%c", BODY_SOUTH_WEST);
+						break;
+					}
+					break;
+				case EAST:
+					switch (snake->direction)
+					{
+					case NORTH:
+						printf("%c", BODY_SOUTH_WEST);
+						break;
+					case EAST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					case SOUTH:
+						printf("%c", BODY_NORTH_WEST);
+						break;
+					case WEST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					default:
+						break;
+					}
+					break;
+				case WEST:
+					switch (snake->direction)
+					{
+					case NORTH:
+						printf("%c", BODY_SOUTH_EAST);
+						break;
+					case EAST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					case SOUTH:
+						printf("%c", BODY_NORTH_EAST);
+						break;
+					case WEST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					}
+					break;
+				}
+				
+			}
+			else
+			{
+				/* Adjust the symbol to print, and if its a turn, then print on the previous body position */
+				switch (tmp->direction)
+				{
+				case NORTH:
+					switch (tmp->prev->direction)
+					{
+					case NORTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case SOUTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case EAST:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_NORTH_EAST);
+						break;
+					case WEST:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_NORTH_WEST);
+						break;
+					}
+					break;
+				case SOUTH:
+					switch (tmp->prev->direction)
+					{
+					case NORTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case EAST:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_SOUTH_EAST);
+						break;
+					case SOUTH:
+						printf("%c", BODY_VERTICAL);
+						break;
+					case WEST:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_SOUTH_WEST);
+						break;
+					}
+					break;
+				case EAST:
+					switch (tmp->prev->direction)
+					{
+					case NORTH:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_SOUTH_WEST);
+						break;
+					case EAST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					case SOUTH:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_NORTH_WEST);
+						break;
+					case WEST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					default:
+						break;
+					}
+					break;
+				case WEST:
+					switch (tmp->prev->direction)
+					{
+					case NORTH:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_SOUTH_EAST);
+						break;
+					case EAST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					case SOUTH:
+						cursorPosition(tmp->prev->pos);
+						printf("%c", BODY_NORTH_EAST);
+						break;
+					case WEST:
+						printf("%c", BODY_HORIZONTAL);
+						break;
+					}
+					break;
+				}
+			}
+
 			if (tmp->next == NULL)
 			{
-				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp->lastPos);
+				cursorPosition(tmp->lastPos);
 				printf("%c", ' ');
 			}
-			
 			tmp = tmp->next;
 		}
 	}
@@ -157,10 +329,15 @@ void updateSnake(SnakeHead * snake) {
 		
 	}
 
-	if ((snake->nextPosSymbol == SIDEWALL) || (snake->nextPosSymbol == TOPWALL))
+	if ((snake->nextPosSymbol != ' ') && (snake->nextPosSymbol != FRUIT))
 	{
-		// Implement Deah Functions
-		printf("Morreu, babaca!");
+		// Implement Death Functions
+		DeathScreen(snake);
+		while (!_kbhit())
+		{
+			continue;
+		}
+		exit(0);
 	}
 	if (snake->nextPosSymbol == FRUIT)
 	{

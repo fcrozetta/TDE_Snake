@@ -1,8 +1,12 @@
 #pragma once
 #include "stdafx.h"
 
-char MainMenu();
+void MainMenu(SnakeHead * snake);
 
-void SaveGame(Game * game);
+void PauseMenu(SnakeHead * snake);
 
-void LoadGame();
+void SaveGame(SnakeHead *snake);
+
+void LoadGame(SnakeHead * snake);
+
+void DeathScreen(SnakeHead * snake);

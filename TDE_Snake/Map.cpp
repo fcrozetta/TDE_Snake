@@ -3,6 +3,14 @@
 
 void drawScreen() {
 	/* Draw the screen */
+	for (short i = 0; i < WIDTH; i++)
+	{
+		for (short j = 0; j < HEIGHT; j++)
+		{
+			draw({ i,j }, ' ');
+		}
+	}
+
 	for (short i = 1; i < HEIGHT; i++) //Draw Left && Right 
 	{
 		draw({ 0,i }, SIDEWALL);
@@ -15,6 +23,7 @@ void drawScreen() {
 	    draw({ i,HEIGHT }, TOPWALL);
 	}
 
+	
 
 	// Draw Corners
 	draw({ 0,0 }, CORNER);

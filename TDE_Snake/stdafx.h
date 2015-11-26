@@ -19,17 +19,21 @@
 #define TOPWALL '-'
 #define CORNER '+'
 #define FRUIT '*'
-#define BODY_HORIZONTAL '-'
-#define BODY_VERTICAL '|'
+#define BODY_HORIZONTAL 205
+#define BODY_VERTICAL 186
+#define BODY_NORTH_WEST 187
+#define BODY_NORTH_EAST 201
+#define BODY_SOUTH_WEST 188
+#define BODY_SOUTH_EAST 200
+#define cursorPosition(x) SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), x);
 
 #include <locale.h>
 #include <conio.h>
 #include <Windows.h>
 #include <time.h>
 
-
+#include "Map.h"
 #include "Snake.h"
 #include "Fruit.h"
-#include "Map.h"
-#include "Game.h"
+
 #include "Menu.h"

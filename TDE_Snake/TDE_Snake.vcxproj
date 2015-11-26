@@ -142,12 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="DeathScreen.txt" />
     <Text Include="MainMenu.txt" />
+    <Text Include="PauseMenu.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fruit.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Snake.h" />
@@ -156,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fruit.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Snake.cpp" />
