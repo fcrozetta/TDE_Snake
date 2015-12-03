@@ -10,12 +10,12 @@
 	- Incrementar Corpo					[OK]
 	- Snake morre ao acertar a parede (snake.. snAKE?, SNAAAAAKE!!!!) [OK]
 	- Organizar Menus, para aceitar ESC durante o game [OK]
+	- Salvar jogo						[OK]
 	- Carregar Jogo						
-	- Salvar jogo						
+	- Score
 
 */
 #include "stdafx.h"
-
 int main()
 {
 	/* Those two should be on start of main, or it will cause failure. Cathastrophic failure... i don't know why */
@@ -36,7 +36,7 @@ int main()
 		addSnakeBody(snake, body);
 		addSnakeBody(snake, tail);
 	}
-	/*Iniciar o jogo*/
+
 	system("cls");
 	drawScreen();
 	drawSnake(snake);
@@ -53,6 +53,10 @@ int main()
 		}
 		snake->fruitPos = fruitPos;
 		
+	}
+	else
+	{
+		fruitPos = snake->fruitPos;
 	}
 	spawnFruit(fruitPos);
 	

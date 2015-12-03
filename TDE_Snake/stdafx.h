@@ -13,6 +13,7 @@
 
 
 // TODO: reference additional headers your program requires here
+//#define _CRT_SECURE_NO_WARNINGS // Emergency only
 #define HEIGHT 23
 #define WIDTH 79
 #define SIDEWALL '|'
@@ -20,6 +21,7 @@
 #define CORNER '+'
 #define FRUIT '*'
 #define BODY_HORIZONTAL 205
+
 #define BODY_VERTICAL 186
 #define BODY_NORTH_WEST 187
 #define BODY_NORTH_EAST 201
